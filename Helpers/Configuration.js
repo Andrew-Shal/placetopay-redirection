@@ -1,76 +1,80 @@
-﻿/**
- * @typedef {import('../types').ConfigurationData} ConfigurationData
+﻿const axios = require('axios')
+const { Authentication, RestCarrier  } = require('../Carrier')
+
+/**
+ * @typedef {import('../types').ConfigurationData} ConfigurationDataInp
  */
 class Configuration {
+    #carrier; #baseUrl; #login; #tranKey; #client; #timeout; #logger;
+    
     /**
-     * @param {ConfigurationData} configuration
+     * @param {ConfigurationDataInp} configuration
      */
     constructor(configuration) {
         /**
          * @type {null | RestCarrier}
          * @private
          */
-        this._carrier = null
-        
-        this._baseUrl = configuration.baseUrl
-        this._login = configuration.login
-        this._tranKey = configuration.tranKey
+        this.#carrier = null
+        this.#baseUrl = configuration.baseUrl
+        this.#login = configuration.login
+        this.#tranKey = configuration.tranKey
 
 
-        this._client = configuration.client
-        this._timeout = configuration.timeout
+        this.#client = configuration.client
+        this.#timeout = configuration.timeout
 
-        this._logger = configuration.logger // TODO: look into winston for logging: https://www.npmjs.com/package/winston
+        this.#logger = configuration.logger
     }
 
     baseUrl(endpoint = ''){
-        return this._baseUrl + endpoint
+        return this.#baseUrl + endpoint
     }
 
-    timeout(){
-        return this._timeout
+    get timeout(){
+        return this.#timeout
     }
 
-    login(){
-        return this._login
+    get login(){
+        return this.#login
     }
 
-    tranKey(){
-        return this._tranKey
+    get tranKey(){
+        return this.#tranKey
     }
 
-    client(){
-        if(!this._client){
-            this._client = axios.create({
-                baseURL: this._baseUrl
+    get client(){
+        if(!this.#client){
+            this.#client = axios.create({
+                baseURL: this.#baseUrl
             })
-            if(this._timeout !== null) this._client.defaults.timeout = this._timeout
+            if(this.#timeout !== null) this.#client.defaults.timeout = this.#timeout
         }
 
-        return this._client
+        return this.#client
     }
 
     /**
      *
      * @returns {WinstonLogger}
      */
-    logger(){
-        return this._logger
+    get logger(){
+        return this.#logger
     }
 
     get carrier(){
-        if(this._carrier){
-            return this._carrier
+        if(this.#carrier){
+            return this.#carrier
         }
-        this._carrier = new RestCarrier(this)
+        this.#carrier = new RestCarrier(this)
 
-        return this._carrier
+        return this.#carrier
     }
 
-    authentication(){
+    get authentication(){
         return new Authentication({
-            login: this.login(),
-            tranKey: this.tranKey(),
+            login: this.login,
+            tranKey: this.tranKey,
         })
     }
 }

@@ -11,16 +11,16 @@
 
 /**
  * @typedef {Object} RedirectRequestData
- * @property {string?} locale -
+ * @property {string | undefined} locale -
  * @property {BuyerData} buyer -
  * @property {PaymentData} payment -
- * @property {string?} cancelUrl -
+ * @property {string | undefined} cancelUrl -
  * @property {string} ipAddress -
  * @property {string} userAgent -
- * @property {string?} expiration -
- * @property {string?} paymentMethod -
+ * @property {string | undefined} expiration -
+ * @property {string | undefined} paymentMethod -
  * @property {string} returnUrl -
- * @property {Object} fields -
+ * @property {Object | undefined} fields -
  */
 
 /**
@@ -52,11 +52,23 @@
  * @property {string} baseUrl -
  * @property {string} login -
  * @property {string} tranKey -
- * @property {client?} AxiosInstance -
+ * @property {?AxiosInstance} client -
  * @property {number?} timeout -
- * @property {WinstonLogger?} logger -
+ * @property {?WinstonLogger} logger -
  */
 
 // ------- Configuration Types ---------
+
+// ------- Carrier Types ---------
+/**
+ * @typedef {Object} AuthConfigurationData
+ * @property {string} login
+ * @property {string} tranKey
+ * @property {string} algorithm
+ * @property {Object} auth
+ * @property {boolean} overridden
+ * #login; #tranKey; #algorithm; #auth; #overridden;
+ */
+// ------- Carrier Types ---------
 
 

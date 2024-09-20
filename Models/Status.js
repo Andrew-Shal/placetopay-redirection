@@ -9,68 +9,84 @@
 }
 
 class Status{
+    #status; #reason; #message; #date;
     constructor(data) {
-        this._status = data.status
-        this._reason = data.reason
-        this._message = data.message
-        this._date = data.date
+        this.#status = data.status
+        this.#reason = data.reason
+        this.#message = data.message
+        this.#date = data.date
     }
 
-    status(){
-        return this._status ?? StatusTypes.ST_ERROR
+    get status(){
+        return this.#status ?? StatusTypes.ST_ERROR
     }
 
-    reason(){
-        return this._reason
+    get reason(){
+        return this.#reason
     }
 
-    message(){
-        return this._message
+    get message(){
+        return this.#message
     }
 
-    date(){
-        return this._date
+    get date(){
+        return this.#date
     }
 
-    isSuccessful(){
+    get isSuccessful(){
         return this.status() === StatusTypes.ST_OK
     }
 
-    isRejected(){
+    get isRejected(){
         return this.status() === StatusTypes.ST_REJECTED
     }
 
-    isError(){
+    get isError(){
         return this.status() === StatusTypes.ST_ERROR
     }
 
     getFields(){
         return {
-            status: this.status(),
-            reason: this.reason(),
-            message: this.message(),
-            date: this.date()
+            status: this.status,
+            reason: this.reason,
+            message: this.message,
+            date: this.date,
         }
     }
 }
 
 class StatusHelper{
+    /**
+     * @type {Status}
+     */
+    #status;
+
+    /**
+     * 
+     * @param {Status} status
+     */
     constructor(status) {
-        this._status = status
+        this.#status = status
     }
-    status(){
-        return this._status
-    }
-
-    isApproved(){
-        return this._status
+    get status(){
+        return this.#status
     }
 
-    isSuccessful(){
-        return ![StatusTypes.ST_ERROR, StatusTypes.ST_FAILED].find(s => s === this.status().status())
+    get isApproved(){
+        return this.#status
     }
 
-    isRejected(){
-        return this.status().status() === StatusTypes.ST_REJECTED
+    get isSuccessful(){
+        return ![StatusTypes.ST_ERROR, StatusTypes.ST_FAILED].find(s => s === this.status.status)
     }
+
+    get isRejected(){
+        return this.status.status === StatusTypes.ST_REJECTED
+    }
+}
+
+module.exports = {
+    StatusTypes,
+    StatusHelper,
+    Status,
 }

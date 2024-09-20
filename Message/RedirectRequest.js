@@ -26,7 +26,7 @@ class RedirectRequest{
     }
 
     getFields(){
-        return {
+        let returnObj = {
             locale: this.#locale,
             buyer: this.#buyer,
             payment: this.#payment,
@@ -37,6 +37,9 @@ class RedirectRequest{
             userAgent: this.#userAgent,
             expiration: this.#expiration,
         }
+        if(this.#cancelUrl !== '')  returnObj['cancelUrl'] = this.#cancelUrl
+        
+        return returnObj 
     }
 
     get locale(){

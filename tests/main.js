@@ -1,8 +1,8 @@
-﻿const { PlaceToPay } = require('../PlaceToPay')
+﻿const PlaceToPay = require('../PlaceToPay')
 const winston = require('winston')
 require('dotenv').config()
 
-function main(){
+async function main(){
     // configure winston
     const logger = winston.createLogger({
         level: 'info',
@@ -44,8 +44,10 @@ function main(){
             },
         }
         
-        const response = placeToPay.request(requestBody)
-        // const response = placeToPay.query(90745)
+        // const response = await placeToPay.request(requestBody)
+        // console.log(response)
+        const response = await placeToPay.query(90745)
+        console.log(response)
     }catch(error){
         console.log('[ERROR]', error)
         throw error

@@ -1,6 +1,7 @@
 ﻿/**
  * @typedef {import('./types').RedirectResponseData} RedirectResponseData
  */
+const {Status} = require('../Models/Status')
 
 class RedirectResponse{
     #requestId; #processUrl; #status
@@ -34,3 +35,5 @@ class RedirectResponse{
         }
     }
 }
+
+module.exports = RedirectResponse

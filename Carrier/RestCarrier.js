@@ -1,15 +1,15 @@
 ﻿/**
  * @typedef {import('../Message/RedirectRequest')} RedirectRequest
  * @typedef {import('../Message/RedirectInformation')} RedirectInformation
+ * @typedef {import('../Helpers/Configuration')} Configuration
  */
 
-const RedirectResponse = require('../Message/RedirectResponse')
-const RedirectInformation = require('../Message/RedirectInformation')
+const {RedirectResponse, RedirectInformation} = require('../Message')
 
 class BaseCarrier{
     /**
      * @protected
-     * @type {Object}
+     * @type {Configuration}
      */
     _configuration
     constructor(configuration) {
@@ -56,23 +56,22 @@ class RestCarrier extends  BaseCarrier{
         try{
             const data = {
                 ... args,
-                auth: this._configuration.authentication().getFields()
+                auth: this._configuration.authentication.getFields()
             }
 
             // log the request
-            this._configuration.logger().info('[REQUEST]', data)
+            this._configuration.logger.info('[REQUEST]', data)
 
-            const response = await this._configuration.client().post(url, data)
+            const response = await this._configuration.client.post(url, data)
             const result = response.data
 
             // log the result
-            console.log('RESPONSE', { result: result })
-
+            this._configuration.logger.info('[RESPONSE]', result)
             return result
         }catch(error){
             console.log(error)
             // TODO: check what type or error and log
-            throw new Exception(error)
+            throw new Error(error)
         }
     }
 
@@ -96,3 +95,5 @@ class RestCarrier extends  BaseCarrier{
         return new RedirectInformation(result)
     }
 }
+
+module.exports = RestCarrier

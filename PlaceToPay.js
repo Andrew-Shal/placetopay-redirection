@@ -21,11 +21,11 @@ class PlaceToPay {
     }
 
     /**
-     * @param {any} redirectRequest
+     * @param {RedirectRequestData} redirectRequestData
      * @return RedirectResponse
      */
-    request(redirectRequest){
-        const request = new RedirectRequest(redirectRequest)
+    request(redirectRequestData){
+        const request = new RedirectRequest(redirectRequestData)
         return this.#configuration.carrier.request(request)
     }
 
