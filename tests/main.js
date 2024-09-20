@@ -44,10 +44,29 @@ async function main(){
             },
         }
         
-        // const response = await placeToPay.request(requestBody)
+        const res = await placeToPay.request(requestBody)
+        
+        if(res.isSuccessful()){
+            // db updates
+            // 1. create order here 
+            // 2. created payment session here
+            const returnData = {
+                status: true,
+                redirect: res.processUrl
+            }
+            console.log(returnData)
+            
+            
+            // test query request id
+            const res2 = await placeToPay.query(res.requestId)
+            console.log(res2)
+            
+            // get the payment session record here and update the status
+            // update the order status
+        }
+        
+        // const response = await placeToPay.query(90745)
         // console.log(response)
-        const response = await placeToPay.query(90745)
-        console.log(response)
     }catch(error){
         console.log('[ERROR]', error)
         throw error
