@@ -1,4 +1,6 @@
-﻿/**
+﻿/// <reference path="typedefs.js" />
+
+/**
  * @typedef {import('../Message/RedirectRequest')} RedirectRequest
  * @typedef {import('../Message/RedirectInformation')} RedirectInformation
  * @typedef {import('../Helpers/Configuration')} Configuration

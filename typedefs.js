@@ -1,12 +1,18 @@
-﻿// ------- Message Types ---------
+﻿/**
+ * @namespace typedefs
+ */
+
+// ------- Message Types ---------
 /**
  * @typedef {Object} BuyerData
  * @property {string} name -
+ * @memberOf typedefs
  */
 
 /**
  * @typedef {Object} PaymentData
  * @property {string}
+ * @memberOf typedefs
  */
 
 /**
@@ -21,13 +27,15 @@
  * @property {string | undefined} paymentMethod -
  * @property {string} returnUrl -
  * @property {Object | undefined} fields -
+ * @memberOf typedefs
  */
 
 /**
  * @typedef {Object} RedirectResponseData
  * @property {string} requestId -
  * @property {string} processUrl -
- * @property {Status} status -
+ * @property {Object} status -
+ * @memberOf typedefs
  */
 
 
@@ -36,14 +44,15 @@
  * @property {string} requestId -
  * @property {string} reference -
  * @property {string} signature -
- * @property {Status} status -
+ * @property {StatusData} status -
+ * @memberOf typedefs
  */
 // ------- Message Types ---------
 
 
 // ------- Configuration Types ---------
 /**
- * @typedef AxiosInstance {import('axios').AxiosInstance}
+ * @type AxiosInstance {import('axios').AxiosInstance}
  * @typedef {import('winston').Logger} WinstonLogger
  */
 
@@ -52,9 +61,10 @@
  * @property {string} baseUrl -
  * @property {string} login -
  * @property {string} tranKey -
- * @property {?AxiosInstance} client -
- * @property {number?} timeout -
- * @property {?WinstonLogger} logger -
+ * @property {AxiosInstance | undefined} client -
+ * @property {number | undefined} timeout -
+ * @property {WinstonLogger | undefined} logger -
+ * @memberOf typedefs
  */
 
 // ------- Configuration Types ---------
@@ -62,13 +72,23 @@
 // ------- Carrier Types ---------
 /**
  * @typedef {Object} AuthConfigurationData
- * @property {string} login
- * @property {string} tranKey
- * @property {string} algorithm
- * @property {Object} auth
- * @property {boolean} overridden
- * #login; #tranKey; #algorithm; #auth; #overridden;
+ * @property {string} login -
+ * @property {string} tranKey -
+ * @property {string | undefined} algorithm -
+ * @property {Object | undefined} auth -
+ * @property {boolean | undefined} overridden -
+ * @memberOf typedefs
  */
 // ------- Carrier Types ---------
 
+/**
+ * 
+ * @typedef {Object} StatusData
+ * @property {string} status -
+ * @property {string} reason -
+ * @property {string} message -
+ * @property {string} date -
+ * @memberOf typedefs
+ */
+exports.unused = {}
 

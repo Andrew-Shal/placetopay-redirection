@@ -1,10 +1,6 @@
-﻿const dayjs = require('dayjs')
+﻿/// <reference path="typedefs.js" />
 
-/**
- * @typedef {import('./types').BuyerData} BuyerData
- * @typedef {import('./types').PaymentData} PaymentData
- * @typedef {import('./types').RedirectRequestData} RedirectRequestData
- */
+const dayjs = require('dayjs')
 
 class RedirectRequest{
     #locale; #buyer; #payment; #returnUrl; #paymentMethod; #cancelUrl; #ipAddress; #userAgent; #expiration
@@ -42,62 +38,141 @@ class RedirectRequest{
         return returnObj 
     }
 
+    /**
+     * 
+     * @returns {string}
+     */
     get locale(){
         return this.#locale
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get language(){
         return this.#locale.substring(0,2).toUpperCase()
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get cancelUrl(){
         return this.#cancelUrl
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get userAgent(){
         return this.#userAgent
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get returnUrl(){
         return this.#returnUrl
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get ipAddress(){
         return this.#ipAddress
     }
+
+    /**
+     * 
+     * @returns {Object}
+     */
     buyer(){
         return this.#buyer
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get expiration(){
         return this.#expiration
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     get paymentMethod(){
         return this.#paymentMethod
     }
+
+    /**
+     * 
+     * @returns {string}
+     */
     reference(){
         return this.#payment.reference
     }
 
+    /**
+     * 
+     * @param {string} locale
+     * @returns {RedirectRequest}
+     */
     setLocale(locale){
         this.#locale = locale
         return this
     }
 
+    /**
+     * 
+     * @param {string} returnUrl
+     * @returns {RedirectRequest}
+     */
     setReturnUrl(returnUrl){
         this.#returnUrl = returnUrl
         return this
     }
 
+    /**
+     * 
+     * @param {string} cancelUrl
+     * @returns {RedirectRequest}
+     */
     setCancelUrl(cancelUrl){
         this.#cancelUrl = cancelUrl
         return this
     }
 
+    /**
+     * 
+     * @param {string} expiration
+     * @returns {RedirectRequest}
+     */
     setExpiration(expiration){
         this.#expiration = expiration
         return this
     }
 
+    /**
+     * 
+     * @param {string} userAgent
+     * @returns {RedirectRequest}
+     */
     setUserAgent(userAgent){
         this.#userAgent = userAgent
         return this
     }
 
+    /**
+     * 
+     * @param {string} ipAddress
+     * @returns {RedirectRequest}
+     */
     setIpAddress(ipAddress){
         this.#ipAddress = ipAddress
         return this

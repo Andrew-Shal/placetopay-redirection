@@ -1,10 +1,9 @@
-﻿/**
- * @typedef {import('./types').RedirectResponseData} RedirectResponseData
- */
-const {Status} = require('../Models/Status')
+﻿/// <reference path="typedefs.js" />
+
+const { StatusHelper } = require('../Models/Status')
 
 class RedirectResponse{
-    #requestId; #processUrl; #status
+    #requestId; #processUrl; #statusHelper;
 
     /**
      * @param {RedirectResponseData} data
@@ -12,24 +11,36 @@ class RedirectResponse{
     constructor(data) {
         this.#requestId = data.requestId
         this.#processUrl = data.processUrl
-        this.#status = new Status(data.status)
+        this.#statusHelper = new StatusHelper(data.status)
     }
 
-    get status(){
-        return this.#status
+    /**
+     *
+     * @returns {StatusHelper}
+     */
+    get statusHelper(){
+        return this.#statusHelper
     }
 
+    /**
+     * 
+     * @returns {string}
+     */
     get requestId(){
         return this.#requestId
     }
 
+    /**
+     * 
+     * @returns {string}
+     */
     get processUrl(){
         return this.#processUrl
     }
 
     getFields(){
         return {
-            status: this.#status,
+            status: this.statusHelper.status.getFields(),
             processUrl: this.#processUrl,
             requestId: this.#requestId,
         }

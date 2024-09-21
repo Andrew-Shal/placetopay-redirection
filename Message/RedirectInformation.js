@@ -1,33 +1,60 @@
-﻿const { Status } = require('../Models/Status')
+﻿/// <reference path="typedefs.js" />
+
+const { StatusHelper } = require('../Models/Status')
 const Transaction = require('../Models/Transaction')
 const RedirectRequest = require("./RedirectRequest");
 class RedirectInformation {
-    #requestId; #request; #payment = []; #status;
+    #requestId; #request; #payment = []; #statusHelper;
     
     constructor(data) {
-        this.#status = new Status(data.status)
+        this.#statusHelper = new StatusHelper(data.status)
         this.#requestId = data.request
         
         if(data.request) this.#request = new RedirectRequest(data.request)
         
         if(data.payment) this.setPayment(data.payment)
     }
+
+    /**
+     *
+     * @returns {StatusHelper}
+     */
+    get statusHelper(){
+        return this.#statusHelper
+    }
     
+    /**
+     * 
+     * @returns {string}
+     */
     get requestId(){
         return this.#requestId
     }
-    
+
+    /**
+     * 
+     * @returns {Object}
+     */
     get request(){
         return this.#request
     }
-    
+
+    /**
+     * 
+     * @returns {[] | Transaction[]}
+     */
     get payment(){
         return this.#payment
     }
-    
+
+    /**
+     * 
+     * @param {Object} payments
+     * @returns {RedirectInformation}
+     */
     setPayment(payments){
         if(payments){
-            this.$payment = []
+            this.#payment = []
             
             if(payments.transaction){
                 payments = payments.transaction
@@ -39,11 +66,20 @@ class RedirectInformation {
         }
         return this
     }
-    
+
+    /**
+     * 
+     * @returns {*}
+     */
     lastApprovedTransaction(){
         return this.lastTransaction(true)
     }
-    
+
+    /**
+     * 
+     * @param approved
+     * @returns {any|null}
+     */
     lastTransaction(approved = false){
         let transactions = this.payment
         
@@ -52,7 +88,11 @@ class RedirectInformation {
         }
         return null
     }
-    
+
+    /**
+     * 
+     * @returns {*|string}
+     */
     lastAuthorization(){
         if(this.lastApprovedTransaction()){
             return this.lastApprovedTransaction().authorization() 
@@ -63,9 +103,9 @@ class RedirectInformation {
     getFields(){
         return {
             requestId: this.requestId,
-            status: this.#status.getFields(),
+            status: this.statusHelper.status.getFields(),
             request: this.#request ? this.#request.getFields() : null,
-            payment: this.payment.getFields()
+            payment: this.payment ? this.payment.map(p => p.getFields()) : []
         }
     }
 }

@@ -1,11 +1,11 @@
-const {Status, StatusTypes} = require("./Status");
+const {Status, StatusTypes, StatusHelper} = require("./Status");
 
 class Transaction{
     #reference; #internalReference = ''; #paymentMethod = ''; #paymentMethodName = '';
     #issuerName = ''; #discount = null; #amount; #authorization = ''; #receipt = '';
     #franchise = ''; #refunded = false;
     
-    #status;
+    #statusHelper;
     
     #processorFields = [];
     
@@ -20,9 +20,10 @@ class Transaction{
         this.#franchise = data.franchise  
         this.#refunded = data.refunded 
         
-        this.#status = new Status(data.status)
+        this.#statusHelper = new StatusHelper(data.status)
         
-        // TODO: set amount, discount and processor fields
+        this.#amount = data.amount
+        this.#processorFields = data.processorFields
     }
     
     get reference(){
@@ -35,6 +36,10 @@ class Transaction{
     
     get paymentMethod(){
         return this.#paymentMethod
+    }
+    
+    get paymentMethodName(){
+        return this.#paymentMethodName
     }
     
     get issuerName(){
@@ -50,7 +55,7 @@ class Transaction{
     }
     
     get receipt(){
-        return this.receipt
+        return this.#receipt
     }
     
     get franchise(){
@@ -70,11 +75,11 @@ class Transaction{
     }
     
     get isSuccessful(){
-        return this.#status && this.#status.status !== StatusTypes.ST_ERROR
+        return this.#statusHelper.status && this.#statusHelper.status.status !== StatusTypes.ST_ERROR
     }
     
     get isApproved(){
-        return this.#status && this.#status.status === StatusTypes.ST_APPROVED
+        return this.#statusHelper.status && this.#statusHelper.status.status === StatusTypes.ST_APPROVED
     }
     
     setProcessorFields(data){
@@ -105,17 +110,17 @@ class Transaction{
     
     getFields(){
         return {
-            status: this.#status.getFields(),
+            status: this.#statusHelper.status.getFields(),
             internalReference: this.internalReference,
             paymentMethod: this.paymentMethod,
             paymentMethodName: this.paymentMethodName,
             issuerName: this.issuerName,
-            amount: this.amount ? this.amount : null, // TODO: get object not class
+            amount: this.amount ? this.amount : null,
             authorization: this.authorization,
             reference: this.reference,
             receipt: this.receipt,
             refunded: this.refunded,
-            discount: this.discount ? this.discount : null, // TODO: get object not class
+            discount: this.discount ? this.discount : null,
             processorFields: this.processorFieldsKeyValues,
         }
     }

@@ -46,7 +46,7 @@ async function main(){
         
         const res = await placeToPay.request(requestBody)
         
-        if(res.isSuccessful()){
+        if(res.statusHelper.isSuccessful){
             // db updates
             // 1. create order here 
             // 2. created payment session here

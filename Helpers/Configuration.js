@@ -1,14 +1,13 @@
-﻿const axios = require('axios')
+﻿/// <reference path="typedefs.js" />
+
+const axios = require('axios')
 const { Authentication, RestCarrier  } = require('../Carrier')
 
-/**
- * @typedef {import('../types').ConfigurationData} ConfigurationDataInp
- */
 class Configuration {
     #carrier; #baseUrl; #login; #tranKey; #client; #timeout; #logger;
     
     /**
-     * @param {ConfigurationDataInp} configuration
+     * @param {ConfigurationData} configuration
      */
     constructor(configuration) {
         /**
@@ -27,22 +26,43 @@ class Configuration {
         this.#logger = configuration.logger
     }
 
+    /**
+     * 
+     * @param endpoint
+     * @returns {string}
+     */
     baseUrl(endpoint = ''){
         return this.#baseUrl + endpoint
     }
 
+    /**
+     * 
+     * @returns {number}
+     */
     get timeout(){
         return this.#timeout
     }
 
+    /**
+     * 
+     * @returns {string}
+     */
     get login(){
         return this.#login
     }
 
+    /**
+     * 
+     * @returns {string}
+     */
     get tranKey(){
         return this.#tranKey
     }
 
+    /**
+     * 
+     * @returns {AxiosInstance}
+     */
     get client(){
         if(!this.#client){
             this.#client = axios.create({
@@ -62,6 +82,10 @@ class Configuration {
         return this.#logger
     }
 
+    /**
+     * 
+     * @returns {RestCarrier}
+     */
     get carrier(){
         if(this.#carrier){
             return this.#carrier
@@ -71,6 +95,10 @@ class Configuration {
         return this.#carrier
     }
 
+    /**
+     * 
+     * @returns {Authentication}
+     */
     get authentication(){
         return new Authentication({
             login: this.login,
